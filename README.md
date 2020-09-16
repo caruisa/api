@@ -1,1 +1,1 @@
-hahaha
+# Skeleton project for Swagger
