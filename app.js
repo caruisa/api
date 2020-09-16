@@ -1,6 +1,7 @@
 'use strict';
 
 var SwaggerExpress = require('swagger-express-mw');
+var SwaggerUi = require('swagger-tools/middleware/swagger-ui');
 var app = require('express')();
 module.exports = app; // for testing
 
@@ -8,23 +9,15 @@ var config = {
   appRoot: __dirname // required config
 };
 
-var SwaggerUi = require('swagger-tools/middleware/swagger-ui');
-
-SwaggerExpress.create(config, function(err, swaggerExpress) {
-
-  // add swagger-ui (/docs)
-  app.use(SwaggerUi(swaggerExpress.runner.swagger));
-
-  // install middleware
-  swaggerExpress.register(app);
-});
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {
   if (err) { throw err; }
 
-  swaggerExpress.runner.swagger.host = 'https://caruisa.github.io/api/'
+  
 
   // install middleware
+  swaggerExpress.runner.swagger.host = 'https://caruisa.github.io/api/';
+  app.use(SwaggerUi(swaggerExpress.runner.swagger))
   swaggerExpress.register(app);
 
   var port = process.env.PORT || 10010;
